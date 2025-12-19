@@ -1,0 +1,40 @@
+trigger: none
+
+pool : Default
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Enviroment/dev'
+    backendServiceArm: 'Dholu_spn'
+    backendAzureRmOverrideSubscriptionID: '711f9f70-1892-49fb-a04f-5bf2c5a89677'
+    backendAzureRmResourceGroupName: 'asku_rg'
+    backendAzureRmStorageAccountName: 'askustg'
+    backendAzureRmContainerName: 'containers'
+    backendAzureRmKey: 'my-app.tfstate'
+
+
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Enviroment/dev'
+
+
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Enviroment/dev'
+    commandOptions: '-auto-approve'
+    environmentServiceNameAzureRM: 'Dholu_spn'
+    
+
