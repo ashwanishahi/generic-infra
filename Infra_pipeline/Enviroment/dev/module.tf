@@ -2,6 +2,7 @@ module "rgcalling" {
   source     = "../Modules/azurerm_resource_group"
   rg_details = var.rg_details
 
+
 }
 
 module "stgcalling" {
